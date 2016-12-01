@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepublish": "npm run setup",
-    "preprotractor": "npm run webdriver:update -- --standalone",
+    "_preprotractor": "npm run webdriver:update -- --standalone",
     "protractor": "protractor ./protractor.conf.js --silent",
     "setup": "npm run typings -- install",
     "test": "npm run protractor",
