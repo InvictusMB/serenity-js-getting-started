@@ -1,6 +1,4 @@
-var TodoList = require('../ui/todo_list').TodoList;
-var Text = require('serenity-js/lib/screenplay-protractor').Text;
+import * as TodoList from '../ui/todo_list';
+import {Text} from 'serenity-js/lib/screenplay-protractor';
 
-module.exports = {
-    Displayed: Text.ofAll(TodoList.Items)
-};
+export const Displayed = Text.ofAll(TodoList.Items);

@@ -1,5 +1,3 @@
-require('ts-node/register');
-
 var crew = require('serenity-js/lib/stage_crew');
 
 exports.config = {
@@ -13,9 +11,9 @@ exports.config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: [ 'features/**/*.feature' ],
     cucumberOpts: {
-        require:    [ 'features/**/*.ts', 'features/**/*.js' ],
+        require:    [ 'features/**/*.js' ],
         format:     'pretty',
-        compiler:   'ts:ts-node/register'
+        compiler:   'js:babel-register'
     },
 
     plugins: [{
