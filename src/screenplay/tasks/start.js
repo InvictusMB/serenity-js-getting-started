@@ -10,11 +10,12 @@ const addAllTodos = (actor, {items}) => {
   );
 };
 
-export const Start =
+const RunApplication =
   defineTask()
+    .addActions(Open.browserOn('/examples/angularjs/'));
+
+export const Start =
+  RunApplication
+    .addActions(addAllTodos)
     .annotate('{0} starts with a Todo List containing #items')
-    .addActions(
-      Open.browserOn('/examples/angularjs/'),
-      addAllTodos
-    )
     .defineSetters({withATodoListContaining: 'items'});
