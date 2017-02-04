@@ -63,10 +63,9 @@ function finalize(builder) {
   const {props, annotation, actions} = builder;
 
   return createTask(annotation, props, function(actor) {
-    // TODO: Implement action composition
-    const [action] = actions;
-
-    return action(this, actor);
+    return reduce(actions, (chain, action) => {
+      return chain.then(action.bind(null, this, actor))
+    }, Promise.resolve());
   });
 }
 
