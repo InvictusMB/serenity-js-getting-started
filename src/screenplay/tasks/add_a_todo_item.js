@@ -4,8 +4,8 @@ import * as TodoList from '../ui/todo_list';
 
 import {defineTask} from '../../helpers';
 
-const addATodoItemAction = (props, actor) => actor.attemptsTo(
-  Enter.theValue(props.itemName)
+const addATodoItemAction = (actor, {itemName}) => actor.attemptsTo(
+  Enter.theValue(itemName)
     .into(TodoList.What_Needs_To_Be_Done)
     .thenHit(Key.ENTER)
 );

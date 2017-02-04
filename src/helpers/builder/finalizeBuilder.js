@@ -6,6 +6,6 @@ export function finalize(builder) {
 
   return createTask(annotation, setters, function(actor) {
     // 'this' is instance of constructed SerenityJS Task
-    return chainActions(actions, this, actor);
+    return chainActions(actions, actor, this);
   });
 }

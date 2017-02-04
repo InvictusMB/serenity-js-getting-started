@@ -1,17 +1,17 @@
 import _, {chain, partial} from 'lodash';
 
-export function chainActions(actions, props, actor) {
+export function chainActions(actions, actor, props) {
   return chain(actions)
-    .map(partial(bindToActor, _, props, actor))
+    .map(partial(bindToActor, _, actor, props))
     .reduce((chain, action) => chain.then(action), Promise.resolve())
     .value();
 }
 
-function bindToActor(action, props, actor) {
+function bindToActor(action, actor, props) {
   if (isTask(action)) {
     return bindTask(action, actor);
   }
-  return bindAction(action, props, actor);
+  return bindAction(action, actor, props);
 }
 
 function isTask(action) {
@@ -22,6 +22,6 @@ function bindTask(action, actor) {
   return () => actor.attemptsTo(action);
 }
 
-function bindAction(action, props, actor) {
-  return partial(action, props, actor);
+function bindAction(action, actor, props) {
+  return partial(action, actor, props);
 }
