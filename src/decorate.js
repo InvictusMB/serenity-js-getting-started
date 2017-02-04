@@ -3,5 +3,5 @@ export function decorate(target, property, decorator) {
     decorator(
       target, property, Object.getOwnPropertyDescriptor(target, property)
     )
-  )
+  );
 }
