@@ -1,3 +1,4 @@
+import {merge} from 'lodash';
 import {createBuilder} from './createBuilder';
 
 export function addActions(builder, ...newActions) {

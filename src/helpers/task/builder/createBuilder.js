@@ -1,7 +1,7 @@
-import {extend, partial} from 'lodash';
+import {extend} from 'lodash';
 import {createConstructorShortcuts} from '../setters';
-import {addActions, describe, defineProps} from './api';
 import {finalize} from './finalizeBuilder';
+import {bindApi} from './bindApi';
 
 export function createBuilder(config) {
   const {props, annotation, actions} = config;
@@ -19,9 +19,8 @@ export function createBuilder(config) {
     props,
     annotation,
     actions,
-    addActions: partial(addActions, builder),
-    describe: partial(describe, builder),
-    defineProps: partial(defineProps, builder)
+
+    ...bindApi(builder)
   });
 
   extend(builder, createConstructorShortcuts(builder, builder.props));

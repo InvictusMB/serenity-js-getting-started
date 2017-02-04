@@ -1,4 +1,4 @@
-import {extend, mapValues} from 'lodash';
+import {extend} from 'lodash';
 import {addTaskDescription} from './addTaskDescription';
 import {createSetters, createConstructorShortcuts} from './setters';
 
