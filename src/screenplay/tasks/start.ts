@@ -1,7 +1,7 @@
 import { PerformsTasks, Task } from 'serenity-js/lib/screenplay';
 import { Open, step } from 'serenity-js/lib/screenplay-protractor';     // imports the @step
 
-import { AddATodoItem } from './add_a_todo_item';
+var AddATodoItem  = require('./add_a_todo_item.js');
 
 export class Start implements Task {
 

@@ -13,7 +13,7 @@ exports.config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: [ 'features/**/*.feature' ],
     cucumberOpts: {
-        require:    [ 'features/**/*.ts' ],
+        require:    [ 'features/**/*.ts', 'features/**/*.js' ],
         format:     'pretty',
         compiler:   'ts:ts-node/register'
     },
