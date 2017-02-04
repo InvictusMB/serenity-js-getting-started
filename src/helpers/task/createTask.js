@@ -1,5 +1,6 @@
 import {extend, mapValues} from 'lodash';
 import {addTaskDescription} from './addTaskDescription';
+import {createSetters, createConstructorShortcuts} from './setters';
 
 export function createTask(description, setters, performAs) {
   function Task() {
@@ -8,21 +9,8 @@ export function createTask(description, setters, performAs) {
     }
   }
   Task.prototype.performAs = performAs;
-  addChainingSetters(Task.prototype, setters);
-  addConstructorShortcuts(Task, setters);
+  extend(Task.prototype, createSetters(setters));
+  extend(Task, createConstructorShortcuts(Task, setters));
   addTaskDescription(Task, description);
   return Task;
-}
-
-function addChainingSetters(target, setters) {
-  extend(target, mapValues(setters, propertyName => function(value) {
-    this[propertyName] = value;
-    return this;
-  }));
-}
-
-function addConstructorShortcuts(Constructor, setters) {
-  extend(Constructor, mapValues(setters, (propertyName, setter) => value => {
-    return new Constructor()[setter](value);
-  }));
 }

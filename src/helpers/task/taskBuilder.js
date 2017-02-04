@@ -1,5 +1,6 @@
-import {extend, merge, mapValues, chain} from 'lodash';
+import {extend, merge, mapValues, chain, partial} from 'lodash';
 import {createTask} from './createTask';
+import {createConstructorShortcuts} from './setters';
 
 export function defineTask() {
   const config = {
@@ -27,12 +28,12 @@ function createBuilder(config) {
     props,
     annotation,
     actions,
-    addActions: addActions.bind(null, builder),
-    describe: describe.bind(null, builder),
-    defineProps: defineProps.bind(null, builder)
+    addActions: partial(addActions, builder),
+    describe: partial(describe, builder),
+    defineProps: partial(defineProps, builder)
   });
 
-  addSetterShortcuts(builder);
+  extend(builder, createConstructorShortcuts(builder, builder.props));
 
   return builder;
 }
@@ -69,7 +70,7 @@ function finalize(builder) {
 
   return createTask(annotation, props, function(actor) {
     return chain(actions)
-      .map(bindToActorAndProps.bind(null, this, actor))
+      .map(partial(bindToActorAndProps, this, actor))
       .reduce((chain, action) => chain.then(action), Promise.resolve())
       .value();
   });
@@ -80,10 +81,4 @@ function bindToActorAndProps(props, actor, action) {
     return () => actor.attemptsTo(action);
   }
   return () => action(props, actor);
-}
-
-function addSetterShortcuts(builder) {
-  extend(builder, mapValues(builder.props, (propertyName, setterName) => value => {
-    return (new builder())[setterName](value);
-  }));
 }
