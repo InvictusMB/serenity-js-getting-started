@@ -2,7 +2,7 @@ import {createBuilder} from './createBuilder';
 
 export function defineTask() {
   const config = {
-    props: {},
+    setters: {},
     annotation: null,
     actions: []
   };

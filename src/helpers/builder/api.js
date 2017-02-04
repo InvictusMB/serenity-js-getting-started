@@ -2,27 +2,27 @@ import {merge} from 'lodash';
 import {createBuilder} from './createBuilder';
 
 export function addActions(builder, ...newActions) {
-  const {props, annotation, actions} = builder;
+  const {setters, annotation, actions} = builder;
   return createBuilder({
-    props,
+    setters,
     annotation,
     actions: actions.concat(newActions)
   });
 }
 
-export function describe(builder, annotation) {
-  const {props, actions} = builder;
+export function annotate(builder, annotation) {
+  const {setters, actions} = builder;
   return createBuilder({
-    props,
+    setters,
     annotation: annotation,
     actions
   });
 }
 
-export function defineProps(builder, newProps) {
-  const {props, annotation, actions} = builder;
+export function defineSetters(builder, newProps) {
+  const {setters, annotation, actions} = builder;
   return createBuilder({
-    props: merge({}, props, newProps),
+    setters: merge({}, setters, newProps),
     annotation,
     actions
   });

@@ -4,7 +4,7 @@ import {finalize} from './finalizeBuilder';
 import {bindApi} from './bindApi';
 
 export function createBuilder(config) {
-  const {props} = config;
+  const {setters} = config;
   const cachedFinalize = memoize(finalize);
 
   function builder() {
@@ -15,8 +15,8 @@ export function createBuilder(config) {
   extend(builder, {
     ...config,
     ...bindApi(builder),
-    ...createConstructorShortcuts(builder, props)
+    ...createConstructorShortcuts(builder, setters)
   });
-  
+
   return builder;
 }

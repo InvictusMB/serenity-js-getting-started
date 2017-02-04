@@ -1,5 +1,5 @@
 import {extend} from 'lodash';
-import {addTaskDescription} from './addTaskDescription';
+import {annotateTask} from './annotateTask';
 import {createSetters, createConstructorShortcuts} from '../setters';
 
 export function createTask(description, setters, performAs) {
@@ -7,6 +7,6 @@ export function createTask(description, setters, performAs) {
   Task.prototype.performAs = performAs;
   extend(Task.prototype, createSetters(setters));
   extend(Task, createConstructorShortcuts(Task, setters));
-  addTaskDescription(Task, description);
+  annotateTask(Task, description);
   return Task;
 }

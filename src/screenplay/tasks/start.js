@@ -12,9 +12,9 @@ const addAllTodos = ({items}, actor) => {
 
 export const Start =
   defineTask()
-    .describe('{0} starts with a Todo List containing #items')
+    .annotate('{0} starts with a Todo List containing #items')
     .addActions(
       Open.browserOn('/examples/angularjs/'),
       addAllTodos
     )
-    .defineProps({withATodoListContaining: 'items'});
+    .defineSetters({withATodoListContaining: 'items'});
