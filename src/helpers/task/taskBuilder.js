@@ -1,6 +1,7 @@
 import {extend, merge, mapValues, chain, partial} from 'lodash';
 import {createTask} from './createTask';
 import {createConstructorShortcuts} from './setters';
+import {chainActions} from './builder';
 
 export function defineTask() {
   const config = {
@@ -69,16 +70,7 @@ function finalize(builder) {
   const {props, annotation, actions} = builder;
 
   return createTask(annotation, props, function(actor) {
-    return chain(actions)
-      .map(partial(bindToActorAndProps, this, actor))
-      .reduce((chain, action) => chain.then(action), Promise.resolve())
-      .value();
+    // 'this' is instance of constructed SerenityJS Task
+    return chainActions(actions, this, actor);
   });
-}
-
-function bindToActorAndProps(props, actor, action) {
-  if (action.performAs) {
-    return () => actor.attemptsTo(action);
-  }
-  return () => action(props, actor);
 }
