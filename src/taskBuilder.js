@@ -1,4 +1,4 @@
-import {extend, reduce, merge, mapValues} from 'lodash';
+import {extend, merge, mapValues, chain} from 'lodash';
 import {createTask} from './createTask';
 
 export function defineTask() {
@@ -68,13 +68,18 @@ function finalize(builder) {
   const {props, annotation, actions} = builder;
 
   return createTask(annotation, props, function(actor) {
-    return reduce(actions, (chain, action) => {
-      if (action.performAs) {
-        return chain.then(() => actor.attemptsTo(action));
-      }
-      return chain.then(action.bind(null, this, actor))
-    }, Promise.resolve());
+    return chain(actions)
+      .map(bindToActorAndProps.bind(null, this, actor))
+      .reduce((chain, action) => chain.then(action), Promise.resolve())
+      .value();
   });
+}
+
+function bindToActorAndProps(props, actor, action) {
+  if (action.performAs) {
+    return () => actor.attemptsTo(action);
+  }
+  return () => action(props, actor);
 }
 
 function addSetterShortcuts(builder) {
