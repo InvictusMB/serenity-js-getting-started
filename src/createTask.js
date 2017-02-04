@@ -7,14 +7,22 @@ export function createTask(description, setters, performAs) {
       return new Task();
     }
   }
-  extend(Task.prototype, mapValues(setters, propertyName => function(value) {
+  Task.prototype.performAs = performAs;
+  addChainingSetters(Task.prototype, setters);
+  addConstructorShortcuts(Task, setters);
+  addTaskDescription(Task, description);
+  return Task;
+}
+
+function addChainingSetters(target, setters) {
+  extend(target, mapValues(setters, propertyName => function(value) {
     this[propertyName] = value;
     return this;
   }));
-  extend(Task, mapValues(setters, (propertyName, setter) => value => {
-    return new Task()[setter](value);
+}
+
+function addConstructorShortcuts(Constructor, setters) {
+  extend(Constructor, mapValues(setters, (propertyName, setter) => value => {
+    return new Constructor()[setter](value);
   }));
-  Task.prototype.performAs = performAs;
-  addTaskDescription(Task, description);
-  return Task;
 }
