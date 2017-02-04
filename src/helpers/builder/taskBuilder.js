@@ -1,4 +1,4 @@
-import {createBuilder} from './builder';
+import {createBuilder} from './createBuilder';
 
 export function defineTask() {
   const config = {

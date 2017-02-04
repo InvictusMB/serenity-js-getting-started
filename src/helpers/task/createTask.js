@@ -1,6 +1,6 @@
 import {extend} from 'lodash';
 import {addTaskDescription} from './addTaskDescription';
-import {createSetters, createConstructorShortcuts} from './setters';
+import {createSetters, createConstructorShortcuts} from '../setters';
 
 export function createTask(description, setters, performAs) {
   function Task() {

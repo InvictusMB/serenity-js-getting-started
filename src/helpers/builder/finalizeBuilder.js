@@ -1,4 +1,4 @@
-import {createTask} from '../createTask';
+import {createTask} from '../task';
 import {chainActions} from './chainActions';
 
 export function finalize(builder) {
