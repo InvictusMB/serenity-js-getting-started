@@ -14,8 +14,13 @@ export function defineTask() {
 function createBuilder(config) {
   const {props, annotation, actions} = config;
 
+  let finalized;
+
   function builder() {
-    return finalize(builder)();
+    if (!finalized) {
+      finalized = finalize(builder);
+    }
+    return finalized();
   }
 
   extend(builder, {
