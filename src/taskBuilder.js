@@ -64,6 +64,9 @@ function finalize(builder) {
 
   return createTask(annotation, props, function(actor) {
     return reduce(actions, (chain, action) => {
+      if (action.performAs) {
+        return chain.then(() => actor.attemptsTo(action));
+      }
       return chain.then(action.bind(null, this, actor))
     }, Promise.resolve());
   });
