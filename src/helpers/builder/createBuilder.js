@@ -1,29 +1,22 @@
-import {extend} from 'lodash';
+import {extend, memoize} from 'lodash';
 import {createConstructorShortcuts} from '../setters';
 import {finalize} from './finalizeBuilder';
 import {bindApi} from './bindApi';
 
 export function createBuilder(config) {
-  const {props, annotation, actions} = config;
-
-  let finalized;
+  const {props} = config;
+  const cachedFinalize = memoize(finalize);
 
   function builder() {
-    if (!finalized) {
-      finalized = finalize(builder);
-    }
-    return finalized();
+    const Task = cachedFinalize(builder);
+    return new Task();
   }
 
   extend(builder, {
-    props,
-    annotation,
-    actions,
-
-    ...bindApi(builder)
+    ...config,
+    ...bindApi(builder),
+    ...createConstructorShortcuts(builder, props)
   });
-
-  extend(builder, createConstructorShortcuts(builder, builder.props));
-
+  
   return builder;
 }
