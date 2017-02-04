@@ -2,7 +2,7 @@ import {Enter} from 'serenity-js/lib/screenplay-protractor';
 import {Key} from 'protractor';
 import * as TodoList from '../ui/todo_list';
 
-import {defineTask} from '../../taskBuilder';
+import {defineTask} from '../../helpers/task/taskBuilder';
 
 const addATodoItemAction = (props, actor) => {
   return actor.attemptsTo(
@@ -17,4 +17,3 @@ export const AddATodoItem =
     .describe('{0} adds a Todo Item with kittens called #itemName')
     .addActions(addATodoItemAction)
     .defineProps({called: 'itemName'});
-

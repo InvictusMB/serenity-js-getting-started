@@ -1,7 +1,7 @@
 import {Open} from 'serenity-js/lib/screenplay-protractor';
 
 import {AddATodoItem} from './add_a_todo_item.js';
-import {defineTask} from '../../taskBuilder';
+import {defineTask} from '../../helpers/task';
 
 const addAllTodos = ({items}, actor) => {
   const addItems = items.map(item => AddATodoItem.called(item));
